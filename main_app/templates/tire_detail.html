@@ -28,9 +28,13 @@
               {% if tire.product.current_quantity < 4 %}
                 <p class="low-stock">Call for availability</p>
               {% elif tire.product.current_quantity > 19 %}
-                <p class="in-stock">20+ in stock</p>
+                <p class="in-stock">
+                  <span>20+</span> in stock
+                </p>
               {% else %}
-                <p class="in-stock">{{ tire.product.current_quantity }}</span>in stock </p>
+                <p class="in-stock">
+                  <span>{{ tire.product.current_quantity }}</span> in stock
+                </p>
               {% endif %}
           </div>
         </form>
