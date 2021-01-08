@@ -9,7 +9,7 @@
   <h3 style="margin: 0; color: rgb(211, 121, 37); font-size: 1rem; letter-spacing: .5px;">
     ROADSTAR TIRE WHOLESALE
   </h3>
-  <a style="margin: 0; text-decoration: none;" href="http://www.roadstartirewholesale.ca">
+  <a style="margin: 0; text-decoration: none;" href="https://www.roadstartirewholesale.ca">
     www.roadstartirewholesale.ca
   </a>
   <div style="color: #202124;">
@@ -18,7 +18,7 @@
   </div>
 </div>
 <!-- Invoice # -->
-<h3 style="margin: 16px 0 0 0; color: #202124">Invoice # {{ order.pk }}</h3>
+<h3 style="margin: 16px 0 0 0; color: #202124">Invoice # E{{ order.cart.ordered_at|date:'Y F' }}-{{ order.pk }}</h3>
 <!-- Ordered and Shipped dates -->
 <div style="margin: 8px 0 0 0; color: #202124">
   <h4 style="margin: 0;">Ordered: {{ order.cart.ordered_at|date:'F j, Y' }}</h3>
@@ -103,7 +103,7 @@
   </tfoot>
 </table>
 <div style="margin: 8px 0 0 0; color: #202124">
-  <p style="margin: 0">GST/HST # {{ order.gst_number }}</p>
+  <p style="margin: 0">GST/HST#: 798049078 / RT0001</p>
   <p style="margin: 0">WARRANTY 60,0000 KM (as it was shown and agreed with customer)</p>
 </div>
 </div>
