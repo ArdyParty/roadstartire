@@ -18,7 +18,7 @@
   </div>
 </div>
 <!-- Invoice # -->
-<h3 style="margin: 16px 0 0 0; color: #202124">Invoice # {{ order.pk }}</h3>
+<h3 style="margin: 16px 0 0 0; color: #202124">Invoice # E{{ order.cart.ordered_at|date:'Y F' }}-{{ order.pk }}</h3>
 <!-- Ordered and Shipped dates -->
 <div style="margin: 8px 0 0 0; color: #202124">
   <h4 style="margin: 0;">Ordered: {{ order.cart.ordered_at|date:'F j, Y' }}</h3>
