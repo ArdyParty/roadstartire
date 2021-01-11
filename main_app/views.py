@@ -300,14 +300,24 @@ def tire_list(req):
         aspect_ratio__icontains=aspect_ratio
       ).filter(
         rim_size__icontains=rim_size
+      ).filter(
+        product__is_archived=False
       )
 
     sort = req.GET.get('sort', '')
 
     if not quick_search:
-      results = Tire.objects.filter(updated_to=None).order_by('price')
+      results = Tire.objects.filter(
+        updated_to=None
+      ).filter(
+        product__is_archived=False
+      ).order_by('price')
       if sort:
-        results = result.filter(updated_to=None).order_by(sort)
+        results = result.filter(
+          updated_to=None
+          ).filter(
+        product__is_archived=False
+          ).order_by(sort)
     else:
       results = result.order_by('price')
       if sort:
@@ -340,14 +350,20 @@ def tire_list(req):
         brand__icontains=brand
       ).filter(
         tire_type__icontains=tire_type
+      ).filter(
+        product__is_archived=False
       )
 
     sort = req.GET.get('sort', '')
 
     if not (width or aspect_ratio or tire_type or brand or rim_size):
-      results = Tire.objects.filter(updated_to=None).order_by('price')
+      results = Tire.objects.filter(updated_to=None).filter(
+        product__is_archived=False
+      ).order_by('price')
       if sort:
-        results = result.order_by(sort)
+        results = result.order_by(sort).filter(
+          product__is_archived=False
+        )
     else:
       results = result.order_by('price')
       if sort:
