@@ -114,6 +114,7 @@ class CartDetailInline(admin.TabularInline):
   show_change_link = True
 
   readonly_fields = (
+    'tire_type',
     'price',
     'get_subtotal',
     'created_at',
@@ -122,6 +123,7 @@ class CartDetailInline(admin.TabularInline):
 
   fields = (
     'product',
+    'tire_type',
     'quantity',
     'price',
     'get_subtotal',
@@ -168,7 +170,7 @@ class ImageInline(admin.StackedInline):
 
 class CartAdmin(admin.ModelAdmin):
   list_display = (
-    'id',
+    # 'id',
     'get_order_number',
     'user',
     'get_full_name',
@@ -182,7 +184,7 @@ class CartAdmin(admin.ModelAdmin):
   )
 
   list_display_links = (
-    'id',
+    # 'id',
     'get_order_number',
     'user',
   )
@@ -197,8 +199,8 @@ class CartAdmin(admin.ModelAdmin):
   )
 
   search_fields = (
-    'pk',
-    'ordershipping__pk',
+    # 'pk', 
+    'ordershipping__pk',#order number
     'user__first_name',
     'user__last_name',
     'user__email',
@@ -848,7 +850,7 @@ class ProductAdmin(admin.ModelAdmin):
     'tire__rim_size',
     'tire__tire_type',
   )
-  
+
   # WORKING THROUGH SEARCH FIELD
   # def get_search_results(self, request, queryset, search_term):
   #   # search_term is what you input in admin site

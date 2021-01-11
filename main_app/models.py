@@ -506,6 +506,11 @@ class CartDetail(TimeStampMixin):
   def get_updated_tire(self):
     qs = self.product.tire_set.filter(date_effective__lte=timezone.now()).order_by('date_effective')
     return qs.last()
+  
+  @property
+  def tire_type(self):
+    return self.get_relevant_tire().tire_type
+  tire_type.fget.short_description = 'Type'
 
   @property
   def price(self):
