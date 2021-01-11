@@ -888,6 +888,39 @@ class ProductAdmin(admin.ModelAdmin):
     'tire__tire_type',
   )
 
+  actions = [
+    'mark_as_archived',
+    'mark_as_unarchived',
+  ]
+
+  def mark_as_archived(self, req, queryset):
+    updated = 0
+    for product in queryset:
+      if product.is_archived==False:
+        updated += 1
+      product.is_archived=True
+      product.save()
+    self.message_user(req, ngettext(
+      "%d Product was successfully archived.",
+      "%d Products were successfully archived.",
+      updated,
+    ) % updated, messages.SUCCESS)
+  mark_as_archived.short_description = "Archive products"
+
+  def mark_as_unarchived(self, req, queryset):
+    updated = 0
+    for product in queryset:
+      if product.is_archived==True:
+        updated += 1
+      product.is_archived=False
+      product.save()
+    self.message_user(req, ngettext(
+      "%d Product was successfully unarchived.",
+      "%d Products were successfully unarchived.",
+      updated
+    ) % updated, messages.SUCCESS)
+  mark_as_unarchived.short_description = "Restore products"
+
   # WORKING THROUGH SEARCH FIELD
   # def get_search_results(self, request, queryset, search_term):
   #   # search_term is what you input in admin site
