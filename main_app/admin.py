@@ -810,6 +810,42 @@ class StockInline(admin.TabularInline):
 
 # ────────────────────────────────────────────────────────────────────────────────
 
+from django.utils.encoding import force_text
+
+class ArchivedFilter(admin.SimpleListFilter):
+  title = 'Archived'
+  # Parameter for the filter that will be used in the URL query.
+  parameter_name = 'archived'
+
+  def choices(self, changelist):
+    yield {
+      'selected': self.value() is None,
+      'query_string': changelist.get_query_string({}, [self.parameter_name]),
+      # 'display': 'Yes', # Deletes default 'All' now called 'Yes'
+    }
+    for lookup, title in self.lookup_choices:
+      yield {
+        'selected': self.value() == force_text(lookup),
+        'query_string': changelist.get_query_string({self.parameter_name: lookup}, []),
+        'display': title,
+      }
+
+  def lookups(self, request, model_admin):
+    return (
+      (2, 'All'),
+      (1, 'Archived'),
+      (0, 'Available'),
+    )
+
+  def queryset(self, request, queryset):
+    if self.value() is None:
+      self.used_parameters[self.parameter_name] = 0
+    else:
+      self.used_parameters[self.parameter_name] = int(self.value())
+    if self.value() == 2:
+      return queryset
+    return queryset.filter(is_archived=self.value())
+
 class ProductAdmin(admin.ModelAdmin):
   list_per_page = 20
 
@@ -838,7 +874,8 @@ class ProductAdmin(admin.ModelAdmin):
   )
 
   list_filter = (
-    'is_archived',
+    # 'is_archived',
+    ArchivedFilter,
   )
 
   search_fields = (
@@ -850,6 +887,39 @@ class ProductAdmin(admin.ModelAdmin):
     'tire__rim_size',
     'tire__tire_type',
   )
+
+  actions = [
+    'mark_as_archived',
+    'mark_as_unarchived',
+  ]
+
+  def mark_as_archived(self, req, queryset):
+    updated = 0
+    for product in queryset:
+      if product.is_archived==False:
+        updated += 1
+      product.is_archived=True
+      product.save()
+    self.message_user(req, ngettext(
+      "%d Product was successfully archived.",
+      "%d Products were successfully archived.",
+      updated,
+    ) % updated, messages.SUCCESS)
+  mark_as_archived.short_description = "Archive products"
+
+  def mark_as_unarchived(self, req, queryset):
+    updated = 0
+    for product in queryset:
+      if product.is_archived==True:
+        updated += 1
+      product.is_archived=False
+      product.save()
+    self.message_user(req, ngettext(
+      "%d Product was successfully unarchived.",
+      "%d Products were successfully unarchived.",
+      updated
+    ) % updated, messages.SUCCESS)
+  mark_as_unarchived.short_description = "Restore products"
 
   # WORKING THROUGH SEARCH FIELD
   # def get_search_results(self, request, queryset, search_term):
@@ -896,7 +966,7 @@ class ProductAdmin(admin.ModelAdmin):
             # ('lost_quantity', 'other_quantity',),
             'current_quantity',
             'total_quantity',
-            # 'is_archived', # Hide until fully implemented
+            'is_archived', # Hide until fully implemented
           )
         }),
       )
@@ -904,7 +974,7 @@ class ProductAdmin(admin.ModelAdmin):
       fieldsets = (
         (None, {
           'fields': (
-            # 'is_archived', # Hide until fully implemented
+            'is_archived', # Hide until fully implemented
           )
         }),
       )
@@ -941,6 +1011,7 @@ class ProductAdmin(admin.ModelAdmin):
     if os.environ['DEBUG_VALUE'] == 'True':
       return True
     return False
+
 
 # ────────────────────────────────────────────────────────────────────────────────
 
