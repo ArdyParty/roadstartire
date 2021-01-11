@@ -114,6 +114,7 @@ class CartDetailInline(admin.TabularInline):
   show_change_link = True
 
   readonly_fields = (
+    'tire_type',
     'price',
     'get_subtotal',
     'created_at',
@@ -122,6 +123,7 @@ class CartDetailInline(admin.TabularInline):
 
   fields = (
     'product',
+    'tire_type',
     'quantity',
     'price',
     'get_subtotal',
@@ -168,7 +170,7 @@ class ImageInline(admin.StackedInline):
 
 class CartAdmin(admin.ModelAdmin):
   list_display = (
-    'id',
+    # 'id',
     'get_order_number',
     'user',
     'get_full_name',
@@ -182,7 +184,7 @@ class CartAdmin(admin.ModelAdmin):
   )
 
   list_display_links = (
-    'id',
+    # 'id',
     'get_order_number',
     'user',
   )
@@ -197,8 +199,8 @@ class CartAdmin(admin.ModelAdmin):
   )
 
   search_fields = (
-    'pk',
-    'ordershipping__pk',
+    # 'pk', 
+    'ordershipping__pk',#order number
     'user__first_name',
     'user__last_name',
     'user__email',
@@ -845,27 +847,29 @@ class ArchivedFilter(admin.SimpleListFilter):
     return queryset.filter(is_archived=self.value())
 
 class ProductAdmin(admin.ModelAdmin):
+  list_per_page = 20
+
   list_display = (
-    'id',
+    # 'id',
     'name',
     'price',
     'sale_price',
     'brand',
-    'year',
+    # 'year',
     'width',
     'aspect_ratio',
     'rim_size',
     'tire_type',
-    'pattern',
-    'tread',
-    'load_speed',
+    # 'pattern',
+    # 'tread',
+    # 'load_speed',
     # 'sold_quantity',
     # 'decrease_quantity',
     # 'current_quantity',
   )
 
   list_display_links = (
-    'id',
+    # 'id',
     'name',
   )
 
@@ -882,10 +886,22 @@ class ProductAdmin(admin.ModelAdmin):
     'tire__aspect_ratio',
     'tire__rim_size',
     'tire__tire_type',
-    'tire__pattern',
-    'tire__tread__name',
-    'tire__load_speed',
   )
+
+  # WORKING THROUGH SEARCH FIELD
+  # def get_search_results(self, request, queryset, search_term):
+  #   # search_term is what you input in admin site
+  #   search_term_list = search_term.split(' ')  #['apple','bar']
+
+  #   if not any(search_term_list):
+  #     return queryset, False
+
+  #   if 'investment' in search_term_list:
+  #     queryset = OrderDetail.objects.annotate(
+  #       user_count=Count('user')
+  #     ).filter(user_count__gte=search_term_list['investment'])
+
+  #   return queryset, False
 
   readonly_fields = (
     'id',
@@ -933,12 +949,19 @@ class ProductAdmin(admin.ModelAdmin):
 
   inlines = (StockInline, TireInline)
 
+  # def get_queryset(self, request):
+  #   qs = super(ProductAdmin, self).get_queryset(request)
+  #   return qs.filter( # Need this filter so to remove duplicate rows when sorting on calculated fields)
+  #     (Q(tire__updated_to=None) & Q(tire__date_effective__lte=timezone.now())) | 
+  #     (Q(tire__updated_to__updated_to=None) & Q(tire__updated_to__date_effective__gte=timezone.now()))
+  #     )
+
   def get_queryset(self, request):
-    qs = super(ProductAdmin, self).get_queryset(request)
-    return qs.filter( # Need this filter so to remove duplicate rows when sorting on calculated fields)
+    qs = super(ProductAdmin, self).get_queryset(request).filter(# Need this filter so to remove duplicate rows when sorting on calculated fields)
       (Q(tire__updated_to=None) & Q(tire__date_effective__lte=timezone.now())) | 
       (Q(tire__updated_to__updated_to=None) & Q(tire__updated_to__date_effective__gte=timezone.now()))
       )
+    return qs
 
   def get_image_display(self, obj):
     if obj.get_current().tread:
