@@ -15,8 +15,17 @@
         <input name="rim_size" id="rim-size-input" type="text" class="form-control" placeholder="Rim size"/>
       </div>
       <div id="container-tire-brand-type-inputs">
-        <input name="brand" id="brand-input" type="text" class="form-control" placeholder="Brand" />
-        <input name="tire_type" id="type-input" type="text" class="form-control" placeholder="Type" />
+        <datalist id="brands">
+          {% for brand in brand_selection %}
+            <option value="{{ brand.brand }}">
+          {% endfor %}
+        </datalist>
+        <input autoComplete="on" list="brands" name="brand" id="brand-input" type="text" class="form-control" placeholder="Brand" />
+        <datalist id="categories">
+          <option value="All Season">
+          <option value="Winter">
+        </datalist>
+        <input autoComplete="on" list="categories" name="tire_type" id="type-input" type="text" class="form-control" placeholder="Category" />
       </div>
       <button class="order-btn-filled" type="submit">
         <i class="fas fa-search"></i>

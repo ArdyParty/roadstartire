@@ -14,7 +14,7 @@ from django.template import loader
 from django.views.generic import ListView
 from email.mime.image import MIMEImage
 from main_app.forms import CartDetailCreationForm
-from .models import Tire, Cart, CartDetail, OrderShipping
+from .models import Tire, Cart, CartDetail, OrderShipping, Product
 import re, os, json
 from users.forms import CustomUserCreationForm, CustomUserChangeForm
 from users.models import CustomUser
@@ -281,6 +281,8 @@ def tire_list(req):
 
   sort = None
 
+  brand_selection = Tire.objects.distinct('brand').values('brand')
+
   if 'quick_search' in req.GET:
     if (Cart.objects.filter(user=req.user, status=Cart.Status.CURRENT)).exists():
       cart = Cart.objects.get(user=req.user, status=Cart.Status.CURRENT)
@@ -326,7 +328,7 @@ def tire_list(req):
     paginator = Paginator(results, 20) # x objects per page and y number of orphans
     page_number = req.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(req, 'tire_list.html', {'sort': sort, 'cart': cart, 'results' : results, 'page_obj' : page_obj, 'paginator': paginator})
+    return render(req, 'tire_list.html', {'sort': sort, 'cart': cart, 'brand_selection': brand_selection, 'results': results, 'page_obj': page_obj, 'paginator': paginator})
 
   if 'width' in req.GET:
     if (Cart.objects.filter(user=req.user, status=Cart.Status.CURRENT)).exists():
@@ -373,8 +375,8 @@ def tire_list(req):
     page_number = req.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(req, 'tire_list.html', {'sort': sort, 'cart' : cart, 'results' : results, 'page_obj' : page_obj, 'paginator': paginator})
-  return render(req, 'tire_list.html', {'cart': cart})
+    return render(req, 'tire_list.html', {'sort': sort, 'cart': cart, 'brand_selection': brand_selection, 'results': results, 'page_obj': page_obj, 'paginator': paginator})
+  return render(req, 'tire_list.html', {'cart': cart, 'brand_selection': brand_selection})
 
 def tire_detail(req, tire_id):
   # Grab a reference to the current cart, and if it doesn't exist, then create one
