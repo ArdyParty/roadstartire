@@ -7,6 +7,7 @@ from django.utils import timezone
 from email.mime.image import MIMEImage
 from .models import CartDetail, Cart, OrderShipping, Tire
 from django.utils import timezone
+from .utils import generate_pdf
 
 # After a CartDetail is deleted, if the Cart no longer has CartDetail objects associated with it (ie. the Cart is now empty), mark the Cart as 'ABANDONED'
 @receiver(post_delete, sender=CartDetail)
@@ -40,6 +41,10 @@ def update_cart_time_metadata(sender, instance, *args, **kwargs):
 @receiver(post_save, sender=Cart)
 def send_order_fulfilled_email(sender, instance, *args, **kwargs):
   if instance.status_tracker.has_changed('status') and instance.status == Cart.Status.FULFILLED:
+
+    # trying to download pdf
+    pdf_for_admin = generate_pdf()
+
     order = instance.ordershipping
     cart_details = order.cart.cartdetail_set.all()
     #Info needed to send user email
@@ -68,6 +73,9 @@ def send_order_fulfilled_email(sender, instance, *args, **kwargs):
     msg.attach(msg_img)
     print(msg_img.get_filename())
     msg.send()
+
+    return pdf_for_admin
+
 
 # When an order is placed, create a OrderShipping object that saves the user's current shipping info defined on their profile
 @receiver(post_save, sender=Cart)

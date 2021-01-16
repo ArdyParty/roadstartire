@@ -15,6 +15,7 @@ from django.views.generic import ListView
 from email.mime.image import MIMEImage
 from main_app.forms import CartDetailCreationForm
 from .models import Tire, Cart, CartDetail, OrderShipping, Product
+# from .utils import render_to_pdf
 import re, os, json
 from users.forms import CustomUserCreationForm, CustomUserChangeForm
 from users.models import CustomUser
@@ -443,3 +444,35 @@ def add_to_cart(req):
   # cart = Cart.objects.get(user=req.user, status=Cart.Status.CURRENT)
 
   return JsonResponse({})
+
+
+# def generate_pdf(request, *args, **kwargs):
+#   # data = {
+#   #   'today': datetime.date.today(), 
+#   #   'amount': 39.99,
+#   #   'customer_name': 'Cooper Mann',
+#   #   'order_id': 1233434,
+#   # }
+#   # pdf = render_to_pdf('email/invoice_email.html', data)
+#   # return HttpResponse(pdf, content_type='application/pdf')
+
+#   template = loader.get_template('invoice_email.html')
+#   context = {
+#       "invoice_id": 123,
+#       "customer_name": "John Cooper",
+#       "amount": 1399.99,
+#       "today": "Today",
+#     }
+#   html = template.render()
+#   pdf = render_to_pdf('invoice_email.html')
+#   if pdf:
+#     response = HttpResponse(pdf, content_type='application/pdf')
+#     filename = "Invoice_%s.pdf" %("12341231")
+#     content = "inline; filename='%s'" %(filename)
+#     download = request.GET.get("download")
+#     if download:
+#       content = "attachment; filename='%s'" %(filename)
+#     response['Content-Disposition'] = content
+#     return response
+#   return HttpResponse("Not found")
+
