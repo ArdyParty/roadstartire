@@ -129,7 +129,13 @@
       <div class="container-order rounded-container">
         <!-- Thumbnail and tire details -->
         <div class="list-tire-details">
-          <img src='{{ tire.tread.image_set.first.url }}' alt='tire image' class="thumbnail-image-small"/>
+          <a class="lightbox" href="#{{ tire.id }}">
+            <img src='{{ tire.tread.image_set.first.url }}' alt='tire image' class="thumbnail-image-small"/>
+          </a>
+          <div class="lightbox-target" id="{{ tire.id }}">
+            <img src='{{ tire.tread.image_set.first.url }}'/>
+            <a class="lightbox-close" href="#!"></a>
+          </div>
           <div>
             <h3 class="line-clamp-2"><a class="tire-btn" href="{% url 'tire_detail' tire.get_updated_tire.id %}">{{ tire.name }}</a></h3>
             <p><span class="cart-label">Size:</span> {{tire.width}}/{{tire.aspect_ratio}}{{tire.rim_size}}</p>
