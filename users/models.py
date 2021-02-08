@@ -81,7 +81,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
   address = models.CharField(max_length=30, verbose_name='Address', help_text=address_help_text)
   address_2 = models.CharField(max_length=30, blank=True, verbose_name='Address Line 2 (optional)', help_text=address_2_help_text)
   postal_code = models.CharField(max_length=30)
-  gst_number = models.CharField(validators=[MinLengthValidator(15)], max_length=15, blank=True, verbose_name='GST/HST Number (optional)')
+  gst_number = models.CharField(validators=[MinLengthValidator(9)], max_length=15, verbose_name='GST/HST Number')
   discount_percent = models.DecimalField(
     max_digits=5,
     decimal_places=2,

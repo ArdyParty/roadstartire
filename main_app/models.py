@@ -555,7 +555,7 @@ class OrderShipping(models.Model):
   address = models.CharField(max_length=30, verbose_name='Address', help_text=address_help_text)
   address_2 = models.CharField(max_length=30, blank=True, verbose_name='Address Line 2 (optional)', help_text=address_2_help_text)
   postal_code = models.CharField(max_length=30, blank=True)
-  gst_number = models.CharField(validators=[MinLengthValidator(15)], max_length=15, blank=True, verbose_name='GST/HST #')
+  gst_number = models.CharField(validators=[MinLengthValidator(9)], max_length=15, blank=True, verbose_name='GST/HST #')
 
   def __str__(self):
     return f'Order #{self.pk}'
