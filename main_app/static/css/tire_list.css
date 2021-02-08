@@ -5,8 +5,8 @@
   position: fixed;
   background: rgba(0,0,0,.7);
   border-radius: 20px;
-  width: 70%;
-  height: 70%;
+  width: 750px;
+  height: 60%;
   opacity: 0;
   -webkit-transition: opacity .35s ease-in-out;
   -moz-transition: opacity .35s ease-in-out;
@@ -180,55 +180,7 @@ a.lightbox-close:after {
   margin: 1rem 0;
 }
 
-/* WHEN SCREEN GETS SMALL */
-@media screen and (max-width: 500px){
-  #tire-list-page .container-order {
-    flex-direction: column;
-    align-items: start;
-  }
 
-  #tire-list-page .container-qty {
-    margin: 1rem 0 0 0;
-    margin-right: auto;
-    width: 100%;
-  }
-
-  .add-to-order {
-    width: 100%;
-  }
-
-  .thumbnail-image-small {
-    height: 8rem;
-    width: 8rem;
-  }
-
-  .container-tire-list-price-qty {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-  .lightbox-target {
-    position: fixed;
-    background: rgba(0,0,0,.7);
-    border-radius: 20px;
-    width: 85%;
-    height: 50%;
-    opacity: 0;
-    -webkit-transition: opacity .35s ease-in-out;
-    -moz-transition: opacity .35s ease-in-out;
-    -o-transition: opacity .35s ease-in-out;
-    transition: opacity .35s ease-in-out;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .lightbox-target:target {
-    opacity: 1;
-    top: 0;
-    bottom: 0;
-    margin: auto auto;
-  }
-}
 
 /* Search forms ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
 
@@ -301,7 +253,7 @@ a.lightbox-close:after {
   width: 100%;
 }
 
-@media screen and (max-width: 740px) {
+@media screen and (max-width: 750px) {
   #tire-search-separator {
     margin: .75rem 0 0 0;
     flex-direction: row;
@@ -340,5 +292,77 @@ a.lightbox-close:after {
   #tire-quick-search {
     margin-top: 1rem;
     align-self: initial;
+  }
+  .lightbox-target {
+    position: fixed;
+    background: rgba(0,0,0,.7);
+    border-radius: 20px;
+    width: 90%;
+    height: 50%;
+    opacity: 0;
+    -webkit-transition: opacity .35s ease-in-out;
+    -moz-transition: opacity .35s ease-in-out;
+    -o-transition: opacity .35s ease-in-out;
+    transition: opacity .35s ease-in-out;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .lightbox-target:target {
+    opacity: 1;
+    top: 0;
+    bottom: 0;
+    margin: auto auto;
+  }
+}
+
+/* WHEN SCREEN GETS SMALL */
+@media screen and (max-width: 500px){
+
+  #tire-list-page .container-order {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  #tire-list-page .container-qty {
+    margin: 1rem 0 0 0;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .add-to-order {
+    width: 100%;
+  }
+
+  .thumbnail-image-small {
+    height: 8rem;
+    width: 8rem;
+  }
+
+  .container-tire-list-price-qty {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .lightbox-target {
+    position: fixed;
+    background: rgba(0,0,0,.7);
+    border-radius: 20px;
+    width: 88%;
+    height: 50%;
+    opacity: 0;
+    -webkit-transition: opacity .35s ease-in-out;
+    -moz-transition: opacity .35s ease-in-out;
+    -o-transition: opacity .35s ease-in-out;
+    transition: opacity .35s ease-in-out;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .lightbox-target:target {
+    opacity: 1;
+    top: 0;
+    bottom: 0;
+    margin: auto auto;
   }
 }
