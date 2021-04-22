@@ -1,4 +1,6 @@
 window.onload = function() {
+
+  // add to cart feature
   const buttons = Array.from(document.querySelectorAll('.add-to-order'));
 
   buttons.forEach(b => {
@@ -6,7 +8,6 @@ window.onload = function() {
 
       const itemId = e.target.dataset.id;
       const csrfToken = e.target.dataset.csrf;
-      console.log(e.target.previousElementSibling.lastElementChild.firstElementChild.lastElementChild.value)
       const quantity = e.target.previousElementSibling.lastElementChild.firstElementChild.lastElementChild.value;
       const body = {
         "id": itemId,

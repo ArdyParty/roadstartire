@@ -33,8 +33,15 @@
       <div class='container-cart-item-price-qty'>
         <!-- Price -->
         <div class="container-cart-price">
-          <p class="cart-label">Price</p>
-          <p>${{ cart_detail.get_relevant_tire.relevant_price|intcomma }}</p>
+          {% if cart_detail.get_relevant_tire.relevant_price != cart_detail.get_relevant_tire.price %}
+            <p class="cart-label">Price</p>
+            <p>${{ cart_detail.get_relevant_tire.price|intcomma }}</p>
+            <p class="cart-label" style="color:var(--status-green)">Sale Price</p>
+            <p style="color:var(--status-green);font-weight:bold">${{ cart_detail.get_relevant_tire.relevant_price|intcomma }}</p>
+          {% else %}
+            <p class="cart-label">Price</p>
+            <p>${{ cart_detail.get_relevant_tire.relevant_price|intcomma }}</p>
+          {% endif %}
         </div>
         <!-- Quantity -->
         <div class="container-cart-qty">
@@ -81,8 +88,8 @@
       </div>
       {% if cart.discount_percent_applied %}
         <div class="container-total-row">
-          <span class="cart-label">Discount ({{cart.discount_percent_applied.normalize}}%)</span>
-          <span>-${{ cart.get_discount_amount|intcomma }}</span>
+          <span class="cart-label">Your Discount ({{cart.discount_percent_applied.normalize}}%)</span>
+          <span style="color:var(--status-green);font-weight:bold">-${{ cart.get_discount_amount|intcomma }}</span>
         </div>
       {% endif %}
       <div class="container-total-row">

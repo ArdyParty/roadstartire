@@ -40,6 +40,7 @@ def update_cart_time_metadata(sender, instance, *args, **kwargs):
 @receiver(post_save, sender=Cart)
 def send_order_fulfilled_email(sender, instance, *args, **kwargs):
   if instance.status_tracker.has_changed('status') and instance.status == Cart.Status.FULFILLED:
+
     order = instance.ordershipping
     cart_details = order.cart.cartdetail_set.all()
     #Info needed to send user email
@@ -68,6 +69,8 @@ def send_order_fulfilled_email(sender, instance, *args, **kwargs):
     msg.attach(msg_img)
     print(msg_img.get_filename())
     msg.send()
+
+
 
 # When an order is placed, create a OrderShipping object that saves the user's current shipping info defined on their profile
 @receiver(post_save, sender=Cart)

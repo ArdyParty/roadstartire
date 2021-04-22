@@ -15,6 +15,7 @@ from django.views.generic import ListView
 from email.mime.image import MIMEImage
 from main_app.forms import CartDetailCreationForm
 from .models import Tire, Cart, CartDetail, OrderShipping, Product
+# from .utils import render_to_pdf
 import re, os, json
 from users.forms import CustomUserCreationForm, CustomUserChangeForm
 from users.models import CustomUser
@@ -273,7 +274,7 @@ def email_invoice(req, order_id):
 
 @login_required(login_url='/login')
 def tire_list(req):
-  
+  user = req.user
   if (Cart.objects.filter(user=req.user, status=Cart.Status.CURRENT)).exists():
     cart = Cart.objects.get(user=req.user, status=Cart.Status.CURRENT)
   else: 
@@ -328,7 +329,7 @@ def tire_list(req):
     paginator = Paginator(results, 20) # x objects per page and y number of orphans
     page_number = req.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(req, 'tire_list.html', {'sort': sort, 'cart': cart, 'brand_selection': brand_selection, 'results': results, 'page_obj': page_obj, 'paginator': paginator})
+    return render(req, 'tire_list.html', {'sort': sort, 'cart': cart, 'user': user, 'brand_selection': brand_selection, 'results': results, 'page_obj': page_obj, 'paginator': paginator})
 
   if 'width' in req.GET:
     if (Cart.objects.filter(user=req.user, status=Cart.Status.CURRENT)).exists():
@@ -375,13 +376,15 @@ def tire_list(req):
     page_number = req.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(req, 'tire_list.html', {'sort': sort, 'cart': cart, 'brand_selection': brand_selection, 'results': results, 'page_obj': page_obj, 'paginator': paginator})
-  return render(req, 'tire_list.html', {'cart': cart, 'brand_selection': brand_selection})
+    return render(req, 'tire_list.html', {'sort': sort, 'cart': cart, 'user': user, 'brand_selection': brand_selection, 'results': results, 'page_obj': page_obj, 'paginator': paginator})
+  return render(req, 'tire_list.html', {'cart': cart, 'user': user, 'brand_selection': brand_selection})
 
 def tire_detail(req, tire_id):
   # Grab a reference to the current cart, and if it doesn't exist, then create one
   # If the tire exists in the cart already, then just add the inputted quantity to the current quantity
   # If it doesn't exist in the cart, create a new instance
+  user = req.user
+  
   tire = Tire.objects.get(pk=tire_id)
   updated_tire = tire.get_updated_tire()
   if (Cart.objects.filter(user=req.user, status=Cart.Status.CURRENT)).exists():
@@ -412,7 +415,7 @@ def tire_detail(req, tire_id):
         'tire': tire,
       }
     )
-  return render(req, 'tire_detail.html', {'cart': cart, 'tire': updated_tire, 'form': form})
+  return render(req, 'tire_detail.html', {'cart': cart, 'user': user, 'tire': updated_tire, 'form': form})
 
 @login_required(login_url='/login')
 # @api_view(['POST'])
@@ -443,3 +446,35 @@ def add_to_cart(req):
   # cart = Cart.objects.get(user=req.user, status=Cart.Status.CURRENT)
 
   return JsonResponse({})
+
+
+# def generate_pdf(request, *args, **kwargs):
+#   # data = {
+#   #   'today': datetime.date.today(), 
+#   #   'amount': 39.99,
+#   #   'customer_name': 'Cooper Mann',
+#   #   'order_id': 1233434,
+#   # }
+#   # pdf = render_to_pdf('email/invoice_email.html', data)
+#   # return HttpResponse(pdf, content_type='application/pdf')
+
+#   template = loader.get_template('invoice_email.html')
+#   context = {
+#       "invoice_id": 123,
+#       "customer_name": "John Cooper",
+#       "amount": 1399.99,
+#       "today": "Today",
+#     }
+#   html = template.render()
+#   pdf = render_to_pdf('invoice_email.html')
+#   if pdf:
+#     response = HttpResponse(pdf, content_type='application/pdf')
+#     filename = "Invoice_%s.pdf" %("12341231")
+#     content = "inline; filename='%s'" %(filename)
+#     download = request.GET.get("download")
+#     if download:
+#       content = "attachment; filename='%s'" %(filename)
+#     response['Content-Disposition'] = content
+#     return response
+#   return HttpResponse("Not found")
+
