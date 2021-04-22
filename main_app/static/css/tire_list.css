@@ -1,3 +1,120 @@
+/* styling for image pop up*/
+
+/* Styles the lightbox, removes it from sight and adds the fade-in transition */
+.lightbox-target {
+  position: fixed;
+  background: rgba(0,0,0,.7);
+  border-radius: 20px;
+  width: 750px;
+  height: 60%;
+  opacity: 0;
+  -webkit-transition: opacity .35s ease-in-out;
+  -moz-transition: opacity .35s ease-in-out;
+  -o-transition: opacity .35s ease-in-out;
+  transition: opacity .35s ease-in-out;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */
+
+.lightbox-target img {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left:0;
+  right:0;
+  bottom: 0;
+  max-height: 0%;
+  max-width: 0%;
+  border-radius: 20px;
+  box-sizing: border-box;
+  -webkit-transition: .35s ease-in-out;
+  -moz-transition: .35s ease-in-out;
+  -o-transition: .35s ease-in-out;
+  transition: .35s ease-in-out;
+  overflow: hidden;
+}
+
+/* Styles the close link, adds the slide down transition */
+
+a.lightbox-close {
+  display: block;
+  width:50px;
+  border-radius: 5px 0px 5px 5px;
+  height:50px;
+  box-sizing: border-box;
+  background: var(--navbar-bg-color);
+  color: black;
+  text-decoration: none;
+  position: absolute;
+  right: 0;
+  -webkit-transition: .35s ease-in-out;
+  -moz-transition: .35s ease-in-out;
+  -o-transition: .35s ease-in-out;
+  transition: .35s ease-in-out;
+  pointer-events: visible
+}
+/* Provides part of the "X" to eliminate an image from the close link */
+
+a.lightbox-close:before {
+  content: "";
+  display: block;
+  height: 30px;
+  width: 3px;
+  background: black;
+  position: absolute;
+  left: 26px;
+  top:10px;
+  -webkit-transform:rotate(45deg);
+  -moz-transform:rotate(45deg);
+  -o-transform:rotate(45deg);
+  transform:rotate(45deg);
+  pointer-events: visible
+}
+
+/* Provides part of the "X" to eliminate an image from the close link */
+
+a.lightbox-close:after {
+  content: "";
+  display: block;
+  height: 30px;
+  width: 3px;
+  background: black;
+  position: absolute;
+  left: 26px;
+  top:10px;
+  -webkit-transform:rotate(-45deg);
+  -moz-transform:rotate(-45deg);
+  -o-transform:rotate(-45deg);
+  transform:rotate(-45deg);
+  pointer-events: visible
+}
+
+/* Uses the :target pseudo-class to perform the animations upon clicking the .lightbox-target anchor */
+
+.lightbox-target:target {
+  opacity: 1;
+  top: 0;
+  bottom: 0;
+  margin: auto auto;
+}
+
+.lightbox-target:target img {
+  max-height: 95%;
+  max-width: 95%;
+}
+
+.lightbox-target:target a.lightbox-close {
+  top: 0px;
+}
+
+
+/* end */
+
+
+
 .tire-list-price {
   align-self: center;
 }
@@ -93,34 +210,7 @@
   margin: 1rem 0;
 }
 
-/* WHEN SCREEN GETS SMALL */
-@media screen and (max-width: 500px){
-  #tire-list-page .container-order {
-    flex-direction: column;
-    align-items: start;
-  }
 
-  #tire-list-page .container-qty {
-    margin: 1rem 0 0 0;
-    margin-right: auto;
-    width: 100%;
-  }
-
-  .add-to-order {
-    width: 100%;
-  }
-
-  .thumbnail-image-small {
-    height: 8rem;
-    width: 8rem;
-  }
-
-  .container-tire-list-price-qty {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-}
 
 /* Search forms ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
 
@@ -193,7 +283,7 @@
   width: 100%;
 }
 
-@media screen and (max-width: 740px) {
+@media screen and (max-width: 750px) {
   #tire-search-separator {
     margin: .75rem 0 0 0;
     flex-direction: row;
@@ -232,5 +322,77 @@
   #tire-quick-search {
     margin-top: 1rem;
     align-self: initial;
+  }
+  .lightbox-target {
+    position: fixed;
+    background: rgba(0,0,0,.7);
+    border-radius: 20px;
+    width: 90%;
+    height: 50%;
+    opacity: 0;
+    -webkit-transition: opacity .35s ease-in-out;
+    -moz-transition: opacity .35s ease-in-out;
+    -o-transition: opacity .35s ease-in-out;
+    transition: opacity .35s ease-in-out;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .lightbox-target:target {
+    opacity: 1;
+    top: 0;
+    bottom: 0;
+    margin: auto auto;
+  }
+}
+
+/* WHEN SCREEN GETS SMALL */
+@media screen and (max-width: 500px){
+
+  #tire-list-page .container-order {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  #tire-list-page .container-qty {
+    margin: 1rem 0 0 0;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .add-to-order {
+    width: 100%;
+  }
+
+  .thumbnail-image-small {
+    height: 8rem;
+    width: 8rem;
+  }
+
+  .container-tire-list-price-qty {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .lightbox-target {
+    position: fixed;
+    background: rgba(0,0,0,.7);
+    border-radius: 20px;
+    width: 88%;
+    height: 50%;
+    opacity: 0;
+    -webkit-transition: opacity .35s ease-in-out;
+    -moz-transition: opacity .35s ease-in-out;
+    -o-transition: opacity .35s ease-in-out;
+    transition: opacity .35s ease-in-out;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .lightbox-target:target {
+    opacity: 1;
+    top: 0;
+    bottom: 0;
+    margin: auto auto;
   }
 }
