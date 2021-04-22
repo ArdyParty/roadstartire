@@ -13,13 +13,14 @@
   color: var(--status-red)
 }
 
+.low-stock span {
+  font-weight: bold;
+
+}
+
 .in-stock {
   text-align: left;
   color: var(--status-green)
-}
-
-.in-stock span {
-  font-weight: 600;
 }
 
 .in-stock span {
@@ -33,6 +34,43 @@
 
 #add-tire input {
   width: 5rem;
+}
+
+#tire-detail-page .sold-out-order-btn-filled {
+  /* color: linen; */
+  /* display:inline-block; */
+  /* justify-content:center; */
+  /* align-items:center; */
+  /* padding:0.5em 1em 0.5em 1em; */
+  /* border-radius:6px; */
+  /* border:none; */
+  /* font-size:1.5em; */
+  position: relative;
+  /* background:rgb(250, 148, 53); */
+  /* cursor:pointer; */
+  /* height:1.5em; */
+  /* margin-top: 0.5em; */
+  /* width:8em; */
+  overflow: hidden;
+  /* transition: transform 0.1s; */
+  transition: all 0.2s ease;
+  z-index: 1;
+  width: 100%;
+  padding: 1rem 1.33rem;
+  color: white;
+  background: var(--accent-color-bright);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: .8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 2.1px;
+  margin-top: 1em;
+  text-align: center;
+  pointer-events: none;
+  /* transform: scale(1.02); */
+  width: 100%;
 }
 
 #tire-detail-page .order-btn-filled {

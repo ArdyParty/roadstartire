@@ -37,7 +37,9 @@
     {% for item in cart_details %}
     <div class="container-cart-info">
       <p><a class="tire-btn" href="{% url 'tire_detail' item.get_relevant_tire.pk %}">{{ item.get_relevant_tire.name }}</a></p>
-      <p class="justify-self-start">${{ item.get_relevant_tire.relevant_price|intcomma }}</p>
+      {% if cart_detail.get_relevant_tire.relevant_price != cart_detail.get_relevant_tire.price %}
+      <p class="justify-self-start">${{ item.get_relevant_tire.price|intcomma }}</p>
+      <p class="justify-self-start">sale price: ${{ item.get_relevant_tire.relevant_price|intcomma }}</p>
       <p class="justify-self-start">{{ item.quantity }}</p>
       <p class="justify-self-end">${{ item.get_subtotal|intcomma }}</p>
     </div>

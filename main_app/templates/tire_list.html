@@ -142,7 +142,25 @@
         <div class="container-qty">
           <div class="container-tire-list-price-qty">
             <!-- Price -->
-            <h2 class="tire-list-price">${{ tire.relevant_price }}</h2>
+            
+            <!-- discount price should show up if there is a discount available. -->
+            {% if tire.sale_price %}
+              <h2 class="tire-list-price" style="
+                text-decoration: line-through;
+
+              ">${{ tire.price }}</h2>
+
+              <h2 class="tire-list-price sale" style="
+                color: var(--status-green);
+
+                
+              ">${{ tire.relevant_price }}</h2>
+
+            {% else %}
+              <h2 class="tire-list-price">${{ tire.relevant_price }}</h2>
+
+            {% endif %}
+            <h3 class="tire-hidden-price" style="display: none;"></h3>
             <!-- Quantity and stock -->
             <div>
               <div class="tire-quantity-input-div">
@@ -151,7 +169,8 @@
               </div>
               <div class="stock">
                 {% if tire.product.current_quantity < 4 %}
-                  <p class="low-stock">Call for availability</p>
+                  <p class="low-stock"><span>Call</span> for availability</p>
+                  <a href="tel:905-660-3209"><i class="fas fa-phone-alt contact-detail-action"></i>905-660-3209</a>
                 {% elif tire.product.current_quantity > 19 %}
                   <p class="in-stock">
                     <span>20+</span> in stock
@@ -165,18 +184,37 @@
             </div>
           </div>
           <!-- Add to cart' button -->
-          <button class="add-to-order order-btn-filled" data-id="{{ tire.id }}" data-csrf="{{ csrf_token }}">
-            <div class="pre-text">
-              <i class="fas fa-cart-plus"></i>
-              Add to cart
-            </div>
-            <div class="pre-text-done">
-              <div class="post-text">
-                <i class="fas fa-check"></i>
-                Added
+
+          <!-- add to cart button should not be clickable if stock is low. -->
+          {% if tire.product.current_quantity < 4 %}
+            <button class="sold-out-add-to-order order-btn-filled" data-id="{{ tire.id }}" data-csrf="{{ csrf_token }}">
+              <div class="pre-text">
+                <i class="fas fa-cart-plus"></i>
+                Add to cart
               </div>
-            </div>
-          </button>
+              <div class="pre-text-done">
+                <div class="post-text">
+                  <i class="fas fa-check"></i>
+                  Added
+                </div>
+              </div>
+            </button>
+
+          {% else %}
+            <button class="add-to-order order-btn-filled" data-id="{{ tire.id }}" data-csrf="{{ csrf_token }}">
+              <div class="pre-text">
+                <i class="fas fa-cart-plus"></i>
+                Add to cart
+              </div>
+              <div class="pre-text-done">
+                <div class="post-text">
+                  <i class="fas fa-check"></i>
+                  Added
+                </div>
+              </div>
+            </button>
+          {% endif %}
+          
         </div>
       </div>
     {% endfor %}
@@ -240,4 +278,43 @@
     {% endif %}
   {% endif %}
 </div>
+
+<script type="text/javascript">
+  // calculate discount for user
+  const discount_percent_amount = {{user.discount_percent}};
+  const discount_percent = (100 - discount_percent_amount);
+  const prices = document.querySelectorAll('.tire-list-price');
+  function percentage(num, per) {
+    return (num/100)*per;
+  }
+  // when clicking on price, it will show the user specific discount
+  if (discount_percent < 100) {
+    prices.forEach(price => {
+      price.addEventListener('click', e => {
+        const regularPrice = e.target.innerHTML.substring(1);
+        let hiddenPrice = percentage(regularPrice, discount_percent).toFixed(2);
+
+        if (e.target.nextElementSibling.className !== "tire-list-price sale") {
+          if ((e.target.nextElementSibling.style.display == "none") && (regularPrice > hiddenPrice)) {
+            e.target.nextElementSibling.innerText = `your price: $${hiddenPrice}`
+            e.target.nextElementSibling.style.display = "block";
+
+          }
+          else
+            e.target.nextElementSibling.style.display = "none";
+        } 
+      })
+    })
+  }
+</script>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+

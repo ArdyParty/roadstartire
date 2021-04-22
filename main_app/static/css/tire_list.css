@@ -2,12 +2,42 @@
   align-self: center;
 }
 
+.tire-hidden-price {
+  align-self: center;
+  color: var(--status-green);
+}
+
 .tire-quantity-input-div {
   margin-top: .8em;
 }
 
 .tire-quantity-input {
   width: 4.375rem;
+}
+
+.stock a {
+  text-decoration: none
+}
+.sold-out-add-to-order {
+  /* color: linen; */
+  /* display:inline-block; */
+  /* justify-content:center; */
+  /* align-items:center; */
+  /* padding: 1rem 0em; */
+  /* border-radius:6px; */
+  pointer-events: none;
+  border:none;
+  font-size:1.5em;
+  position: relative;
+  /* background:rgb(250, 148, 53); */
+  /* cursor:pointer; */
+  /* height:1.5em; */
+  min-width: 7em;
+  width: auto;
+  overflow: hidden;
+  /* transition: transform 0.1s; */
+  z-index:1;
+  margin-top: .5em;
 }
 
 .add-to-order {

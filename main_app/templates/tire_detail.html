@@ -27,7 +27,8 @@
             {{ form.as_p }}
               <div class="stock">
                 {% if tire.product.current_quantity < 4 %}
-                  <p class="low-stock">Call for availability</p>
+                  <p class="low-stock"><span>Call</span> for availability</p>
+                  <a href="tel:905-660-3209"><i class="fas fa-phone-alt contact-detail-action"></i>905-660-3209</a>
                 {% elif tire.product.current_quantity > 19 %}
                   <p class="in-stock">
                     <span>20+</span> in stock
@@ -40,18 +41,33 @@
             </div>
           </form>
         </div>
-        <a href="#" class="order-btn-filled">
-          <div class="pre-text">
-            <i class="fas fa-cart-plus"></i>
-              Add to cart
-          </div>
-          <div class="pre-text-done">
-            <div class="post-text">
-              <i class="fas fa-check"></i>
-              Added
+        {% if tire.product.current_quantity < 4 %}
+          <a href="#" class="sold-out-order-btn-filled">
+            <div class="pre-text">
+              <i class="fas fa-cart-plus"></i>
+                Add to cart
             </div>
-          </div>
-        </a>
+            <div class="pre-text-done">
+              <div class="post-text">
+                <i class="fas fa-check"></i>
+                Added
+              </div>
+            </div>
+          </a>
+        {% else %}
+          <a href="#" class="order-btn-filled">
+            <div class="pre-text">
+              <i class="fas fa-cart-plus"></i>
+                Add to cart
+            </div>
+            <div class="pre-text-done">
+              <div class="post-text">
+                <i class="fas fa-check"></i>
+                Added
+              </div>
+            </div>
+          </a>
+        {% endif %}
         </div>
       </div>
     </div>
