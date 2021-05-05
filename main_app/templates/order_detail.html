@@ -42,6 +42,11 @@
       <p class="justify-self-start">sale price: ${{ item.get_relevant_tire.relevant_price|intcomma }}</p>
       <p class="justify-self-start">{{ item.quantity }}</p>
       <p class="justify-self-end">${{ item.get_subtotal|intcomma }}</p>
+      {% else %}
+      <p class="justify-self-start">${{ item.get_relevant_tire.relevant_price|intcomma }}</p>
+      <p class="justify-self-start">{{ item.quantity }}</p>
+      <p class="justify-self-end">${{ item.get_subtotal|intcomma }}</p>
+      {% endif %}
     </div>
     {% endfor %}
   </div>
