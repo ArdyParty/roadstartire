@@ -1,3 +1,99 @@
+/*banner ad css*/
+
+.ad {
+  background-color: var(--navbar-bg-color);
+  height: 400px;
+  width: 200px;
+  position: fixed;
+  top: 20%;
+  right: 2px;
+  border-radius: var(--rounded-border-radius);
+  border: 5px solid var(--accent-color-bright);
+  box-shadow: 1px 1px 1px 1px var(--accent-color-shadow), 2px 2px 4px 4px var(--accent-color-shadow);
+  color: white;
+}
+
+.ad .ad-titles {
+  background-image: url("../images/price-tag.png");
+  height: 185px;
+  width: 195px;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  vertical-align: center;
+  text-align: center;
+}
+
+.ad .ad-titles .promo{
+  font-size: 27px;
+  font-weight: bold;
+  top: 42%;
+  text-transform: uppercase;
+  position: relative;
+  margin: auto;
+}
+
+.ad .ad-description .des1 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+  margin: auto;
+  color: var(--accent-color-bright);
+}
+
+.ad .ad-description .des2 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+  margin: auto;
+  color: var(--accent-color-bright);
+  padding-bottom: 8px;
+}
+
+.ad .ad-detail {
+  padding-bottom: 4px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+  margin: auto;
+  color: var(--main-text-dark);
+}
+
+.ad .ad-detail span {
+  font-size: 18px;
+  color: var(--status-green);
+}
+
+.ad .call {
+  padding-top: 6px;
+  font-size: 20px;
+  color: var(--status-blue);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ad .call a {
+  text-decoration: none;
+  color: var(--status-blue);
+}
+
+.ad .ad-number {
+  color: var(--status-blue);
+  text-align: center;
+  font-size: 20px;
+}
+
+.ad .ad-number a {
+  text-decoration: none;
+  color: var(--status-blue);
+}
+
+
+
 /* styling for image pop up*/
 
 /* Styles the lightbox, removes it from sight and adds the fade-in transition */
@@ -281,6 +377,14 @@ a.lightbox-close:after {
 #tire-quick-search input {
   min-width: 0;
   width: 100%;
+}
+
+/*FOR AD BANNER WHEN SCREEN IS SMALL*/
+
+@media screen and (max-width: 1271px) {
+  .ad {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 750px) {
