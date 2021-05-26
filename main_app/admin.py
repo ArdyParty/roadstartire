@@ -13,6 +13,8 @@ from django.db.models import Q, F
 import os
 import environ
 from django.db.models import Case, When, DecimalField
+# from django.urls import reverse
+
 
 # ────────────────────────────────────────────────────────────────────────────────
 # list_display - Controls which fields are displayed on the change list page
@@ -169,6 +171,8 @@ class ImageInline(admin.StackedInline):
 # ────────────────────────────────────────────────────────────────────────────────
 
 class CartAdmin(admin.ModelAdmin):
+  list_per_page = 20
+
   list_display = (
     # 'id',
     'get_order_number',
@@ -181,6 +185,7 @@ class CartAdmin(admin.ModelAdmin):
     'get_discount_amount',
     'get_tax_amount',
     'get_total',
+    # 'print',
   )
 
   list_display_links = (
@@ -205,6 +210,44 @@ class CartAdmin(admin.ModelAdmin):
     'user__last_name',
     'user__email',
   )
+
+  # # adding print button
+  # def get_urls(self):
+  #   urls = super().get_urls()
+  #   custom_urls = [
+  #     url(
+  #       r'^(?P<get_order_number>.+)/invoice/$',
+  #       self.admin_site.admin_view(self.process_print),
+  #       name='display-invoice',
+  #     ),
+  #   ]
+  #   return custom_urls + urls
+
+  # def print(self, obj):
+  #   return format_html(
+  #     '<a class="button" href="{}">invoice</a>',
+  #     reverse('admin:display-invoice', args=[obj.pk]),
+  #   )
+  # print.short_description = 'Print'
+  # print.allow_tags = True
+
+  # # view function to handle http response when clicking print button
+  # def process_print(
+  #   self,
+  #   request,
+  #   account_id,
+  # ):
+  #   invoice = self.get_object(request, get_order_number)
+    
+  #   context = self.admin_site.each_context(request)
+  #   context['opts'] = self.model._meta
+  #   context['invoice'] = invoice
+  #   return TemplateResponse(
+  #       request,
+  #       'admin/invoice/invoice_print.html',
+  #       context,
+  #   )
+
 
   # Dynamic fieldsets
   def get_fieldsets(self, request, obj=None):
@@ -254,6 +297,7 @@ class CartAdmin(admin.ModelAdmin):
     'updated_at',
     'ordered_at',
     'closed_at',
+    # 'print',
   )
 
   def get_readonly_fields(self, request, obj=None):
